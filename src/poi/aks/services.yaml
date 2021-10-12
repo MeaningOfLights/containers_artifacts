@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service            <-- kind 
+metadata:
+  name: nginx-service    <-- meta data name 
+spec:
+  type: LoadBalancer     <-- in the spec we set the type to LoadBalancer  
+  ports:
+  - port: 80             <-- exposed port 80
+  selector:
+    app: nginx-app      <-- same as the app name
