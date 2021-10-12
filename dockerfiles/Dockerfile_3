@@ -30,8 +30,8 @@ RUN dotnet test
 FROM build-env AS publish
 WORKDIR /app/web
 RUN dotnet publish -c Release -o out
-COPY ./src/poi/web/appsettings.*.json /app/web/out/
-COPY ./src/poi/web/appsettings.json /app/web/out/
+COPY ./web/appsettings.*.json /app/web/out/
+COPY ./web/appsettings.json /app/web/out/
 
 # ------------------------------------------------
 
