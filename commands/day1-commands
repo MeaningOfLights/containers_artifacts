@@ -1,0 +1,28 @@
+
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=sqladmin@1234" \
+   --network openhack-local-network \
+   -p 1433:1433 --name ohsql -h ohsql \
+   -d mcr.microsoft.com/mssql/server:2017-latest
+
+
+
+
+CREATE DATABASE mydrivingDB
+GO
+
+CREATE LOGIN sqladmin WITH PASSWORD = 'changeme@1234'
+GO
+
+
+Use mydrivingDB;
+GO
+
+CREATE USER [sqladmin] FOR LOGIN [sqladmin]; EXEC sp_addrolemember N'db_owner', N'sqladmin'
+GO
+
+
+docker network create -d bridge openhack-local-network
+
+docker run --network openhack-local-network -e SQLFQDN=ohsql -e SQLUSER=sa -e SQLPASS='sqladmin@1234' -e SQLDB=mydrivingDB openhack/data-load:v1
+docker run --network openhack-local-network -p 8080:80 poi
+
