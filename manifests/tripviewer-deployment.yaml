@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer
+  labels:
+    app: tripviewer
+spec:
+  selector:
+    app: tripviewer
+  ports:
+  - port: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer
+spec:
+  selector:
+    matchLabels:
+      app: tripviewer
+  template:
+    metadata:
+      name: tripviewer
+      labels:
+        app: tripviewer 
+    spec:
+      containers:
+      - name: tripviewer
+        image: registrytwg4763.azurecr.io/tripviewer:latest 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80 # the application listens to this port
+        env:
+        - name: USERPROFILE_API_ENDPOINT 
+          value: http://userprofile
+        - name: TRIPS_API_ENDPOINT
+          value: http://trips
+        # resources:
+        #   requests: # minimum resources required
+        #     cpu: 250m
+        #     memory: 64Mi
+        #   limits: # maximum resources allocated
+        #     cpu: 500m
+        #     memory: 512Mi

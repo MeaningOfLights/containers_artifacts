@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trips
+spec:
+  selector:
+    app: trips
+  ports:
+  - port: 80
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips
+spec:
+  selector:
+    matchLabels:
+      app: trips
+  template:
+    metadata:
+      name: trips
+      labels:
+        app: trips 
+    spec:
+      containers:
+      - name: trips
+        image: registrytwg4763.azurecr.io/trips:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80 # the application listens to this port
+        env:
+        - name: SQL_USER 
+          value: sqladmintWg4763
+        - name: SQL_PASSWORD 
+          valueFrom:
+            secretKeyRef:
+              name: appsecrets 
+              key: SQL_PASSWORD 
+        - name: SQL_SERVER 
+          value: sqlservertwg4763.database.windows.net
+        - name: SQL_DBNAME 
+          value: mydrivingDB
+        # resources:
+        #   requests: # minimum resources required
+        #     cpu: 250m
+        #     memory: 64Mi
+        #   limits: # maximum resources allocated
+        #     cpu: 500m
+        #     memory: 512Mi
