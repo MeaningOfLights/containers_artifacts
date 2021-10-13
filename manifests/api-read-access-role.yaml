@@ -1,17 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: api-dev
-  name: api-dev-user-full-access
+  namespace: api
+  name: api-read-access
 rules:
-- apiGroups: ["", "extensions", "apps"]
-  resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["batch"]
-  resources:
-  - jobs
-  - cronjobs
-  verbs: ["*"]
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -19,15 +14,15 @@ apiVersion: rbac.authorization.k8s.io/v1
 # You need to already have a Role named "pod-reader" in that namespace.
 kind: RoleBinding
 metadata:
-  name: read-pods
-  namespace: api-dev
+  name: web-dev-user-read-access
+  namespace: api
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
   kind: Role #this must be Role or ClusterRole
-  name: api-dev-user-full-access # this must match the name of the Role or ClusterRole you wish to bind to
+  name: api-read-access # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 subjects:
 # You can specify more than one "subject"
-- kind: User
-  name: jane # "name" is case sensitive
-  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: 135ca271-b43f-4fa7-a140-0be18e1dfd6c # "name" is case sensitive
+  namespace: api

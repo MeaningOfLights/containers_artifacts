@@ -14,7 +14,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: userprofile
-  namespace: web
+  namespace: api
 spec:
   selector:
     matchLabels:

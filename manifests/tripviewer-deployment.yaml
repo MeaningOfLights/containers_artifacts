@@ -35,9 +35,9 @@ spec:
         - containerPort: 80 # the application listens to this port
         env:
         - name: USERPROFILE_API_ENDPOINT 
-          value: http://userprofile
+          value: http://userprofile.api
         - name: TRIPS_API_ENDPOINT
-          value: http://trips
+          value: http://trips.api
         # resources:
         #   requests: # minimum resources required
         #     cpu: 250m
