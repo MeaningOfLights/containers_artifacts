@@ -26,3 +26,9 @@ docker network create -d bridge openhack-local-network
 docker run --network openhack-local-network -e SQLFQDN=ohsql -e SQLUSER=sa -e SQLPASS='sqladmin@1234' -e SQLDB=mydrivingDB openhack/data-load:v1
 docker run --network openhack-local-network -p 8080:80 poi
 
+
+#manifests/deploy.ps1
+
+kubectl create -f ./namespaces.yaml
+
+kubectl create deployment snowflake --image=k8s.gcr.io/serve_hostname  -n=development --replicas=2
