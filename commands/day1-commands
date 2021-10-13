@@ -31,4 +31,4 @@ docker run --network openhack-local-network -p 8080:80 poi
 
 kubectl create -f ./namespaces.yaml
 
-kubectl create deployment snowflake --image=k8s.gcr.io/serve_hostname  -n=development --replicas=2
+kubectl create deployment podname --image=k8s.gcr.io/serve_hostname -n=web
