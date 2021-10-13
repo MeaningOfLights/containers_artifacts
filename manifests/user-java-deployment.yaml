@@ -31,12 +31,15 @@ spec:
         - containerPort: 80 # the application listens to this port
         env:
         - name: SQL_USER 
-          value: sqladmintWg4763
+          valueFrom:
+            secretKeyRef:
+              name: appsecrets 
+              key: username 
         - name: SQL_PASSWORD 
           valueFrom:
             secretKeyRef:
               name: appsecrets 
-              key: SQL_PASSWORD 
+              key: password  
         - name: SQL_SERVER 
           value: sqlservertwg4763.database.windows.net
         - name: SQL_DBNAME 
