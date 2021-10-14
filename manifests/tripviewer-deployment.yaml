@@ -10,7 +10,7 @@ spec:
     app: tripviewer
   ports:
   - port: 80
-  type: LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
